@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 	styleUrls: ['./login.page.scss']
 })
 export class LoginPage implements OnInit {
-	credentials: FormGroup;
+	credentials!: FormGroup; // Solución: Usamos definite assignment assertion (!)
 
 	constructor(
 		private fb: FormBuilder,
@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
 		private router: Router
 	) {}
 
-	// Easy access for form fields
+	// Acceso rápido a los campos del formulario
 	get email() {
 		return this.credentials.get('email');
 	}
@@ -30,6 +30,7 @@ export class LoginPage implements OnInit {
 	}
 
 	ngOnInit() {
+		// Inicializamos el formulario en OnInit
 		this.credentials = this.fb.group({
 			email: ['', [Validators.required, Validators.email]],
 			password: ['', [Validators.required, Validators.minLength(6)]]
@@ -64,7 +65,8 @@ export class LoginPage implements OnInit {
 		}
 	}
 
-	async showAlert(header, message) {
+	// Tipamos los parámetros de showAlert como strings
+	async showAlert(header: string, message: string) {
 		const alert = await this.alertController.create({
 			header,
 			message,
